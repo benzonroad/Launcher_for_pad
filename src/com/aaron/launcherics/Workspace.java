@@ -3928,7 +3928,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			((CellLayout) getChildAt(rightScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_RIGHT, offSetX);
 		}*/
 		
- 		/*if (rightScreen < getChildCount()) {
+ 		if (rightScreen < getChildCount()) {
  			// scrolling to right;
  			drawChild(canvas, getChildAt(rightScreen), drawingTime);
  			((CellLayout) getChildAt(rightScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_RIGHT, offSetX);
@@ -3937,7 +3937,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
  			// scrolling to right;
  			drawChild(canvas, getChildAt(leftScreen), drawingTime);
  			((CellLayout) getChildAt(leftScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_LEFT, offSetX);
-		}*/
+		}
 
 	}
 
