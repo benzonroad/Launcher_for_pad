@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="transition_names">
+        <item>標準</item>
+        <item>正旋</item>
+        <item>反旋</item>
+        <item>正立方</item>
+        <item>主题</item>
+    </string-array>
+</resources>

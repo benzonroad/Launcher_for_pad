@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest android:versionCode="15" android:versionName="4.0.4-20120720" package="com.android.launcher"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="15" />
+    <original-package android:name="com.android.launcher2" />
+    <permission android:label="@string/permlab_install_shortcut" android:name="com.android.launcher.permission.INSTALL_SHORTCUT" android:protectionLevel="normal" android:permissionGroup="android.permission-group.SYSTEM_TOOLS" android:description="@string/permdesc_install_shortcut" />
+    <permission android:label="@string/permlab_uninstall_shortcut" android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" android:protectionLevel="normal" android:permissionGroup="android.permission-group.SYSTEM_TOOLS" android:description="@string/permdesc_uninstall_shortcut" />
+    <permission android:label="@string/permlab_read_settings" android:name="com.android.launcher.permission.READ_SETTINGS" android:protectionLevel="normal" android:permissionGroup="android.permission-group.SYSTEM_TOOLS" android:description="@string/permdesc_read_settings" />
+    <permission android:label="@string/permlab_write_settings" android:name="com.android.launcher.permission.WRITE_SETTINGS" android:protectionLevel="normal" android:permissionGroup="android.permission-group.SYSTEM_TOOLS" android:description="@string/permdesc_write_settings" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BIND_APPWIDGET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.tmobile.permission.CHANGE_THEME" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.SET_ORIENTATION" />
+    <application android:label="@string/application_name" android:icon="@drawable/ic_launcher_home" android:name="com.android.launcher2.LauncherApplication" android:sharedUserId="android.uid.system" android:hardwareAccelerated="@bool/config_hardwareAccelerated" android:largeHeap="@bool/config_largeHeap">
+        <activity android:theme="@style/Theme" android:name="com.android.launcher2.Launcher" android:clearTaskOnLaunch="true" android:stateNotNeeded="true" android:launchMode="singleTask" android:screenOrientation="nosensor" android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/pick_wallpaper" android:icon="@drawable/ic_launcher_wallpaper" android:name="com.android.launcher2.WallpaperChooser" android:process=":wallpaper_chooser" android:finishOnCloseSystemDialogs="true" style="@style/Theme.WallpaperPicker">
+            <intent-filter>
+                <action android:name="android.intent.action.SET_WALLPAPER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.wallpaper.preview" android:resource="@xml/wallpaper_picker_preview" />
+        </activity>
+        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:label="@string/dream_name" android:name="com.android.launcher2.RocketLauncher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DREAM" />
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.android.launcher2.InstallShortcutReceiver" android:permission="com.android.launcher.permission.INSTALL_SHORTCUT">
+            <intent-filter>
+                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.android.launcher2.UninstallShortcutReceiver" android:permission="com.android.launcher.permission.UNINSTALL_SHORTCUT">
+            <intent-filter>
+                <action android:name="com.android.launcher.action.UNINSTALL_SHORTCUT" />
+            </intent-filter>
+        </receiver>
+        <provider android:name="com.android.launcher2.LauncherProvider" android:readPermission="com.android.launcher.permission.READ_SETTINGS" android:writePermission="com.android.launcher.permission.WRITE_SETTINGS" android:authorities="com.android.launcher2.settings" />
+        <service android:name="com.android.launcher2.AppThemeService" android:exported="true" />
+        <receiver android:label="shortcut" android:name="com.android.launcher2.Win8Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="Time" />
+                <action android:name="wifi" />
+                <action android:name="bluetooth" />
+                <action android:name="sync" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="com.android.sync.SYNC_CONN_STATUS_CHANGED" />
+                <action android:name="brightness" />
+                <action android:name="rotation" />
+                <action android:name="voice" />
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
+        </receiver>
+        <receiver android:label="shortcut2" android:name="com.android.launcher2.Win8WidgetTwo">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="Time" />
+                <action android:name="wf" />
+                <action android:name="bluetooth" />
+                <action android:name="sync" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="com.android.sync.SYNC_CONN_STATUS_CHANGED" />
+                <action android:name="bright" />
+                <action android:name="rota" />
+                <action android:name="voic" />
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_two" />
+        </receiver>
+        <receiver android:label="shortcut3" android:name="com.android.launcher2.Win8WidgetThree">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="Time" />
+                <action android:name="wifi" />
+                <action android:name="bluetooth" />
+                <action android:name="sync" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="com.android.sync.SYNC_CONN_STATUS_CHANGED" />
+                <action android:name="brightness" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_three" />
+        </receiver>
+        <activity android:name="com.android.launcher2.MyIconWidgetCon">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </activity>
+        <service android:name="com.android.launcher2.Win8WidgetService" />
+    </application>
+</manifest>

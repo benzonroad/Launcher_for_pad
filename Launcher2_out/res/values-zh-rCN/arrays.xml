@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="transition_names">
+        <item>标准</item>
+        <item>正旋</item>
+        <item>反旋</item>
+        <item>正立方</item>
+        <item>反立方</item>
+    </string-array>
+    <string-array name="week">
+        <item>星期日</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+    </string-array>
+</resources>

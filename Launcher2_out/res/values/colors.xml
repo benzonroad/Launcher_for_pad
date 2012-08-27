@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="delete_target_hover_tint">#daff0000</color>
+    <color name="info_target_hover_tint">#da0099cc</color>
+    <color name="drag_view_multiply_color">#ccffffff</color>
+    <color name="grep">#ffa0a0a0</color>
+    <color name="write">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="bubble_dark_background">#20000000</color>
+    <color name="appwidget_error_color">#ffcccccc</color>
+    <color name="workspace_all_apps_and_delete_zone_text_color">#ccffffff</color>
+    <color name="workspace_all_apps_and_delete_zone_text_shadow_color">#a0000000</color>
+    <color name="transitison_dialog_below_text_view_color">#ff33b5e5</color>
+    <color name="transitison_dialog_between_text_view_color">#ff4f4f4f</color>
+    <color name="grid_transition_color">#ff000000</color>
+    <color name="tab_selected">#ff0a0a0a</color>
+    <color name="tab_unselected">#ffffffff</color>
+    <color name="metro_color_deep_blue">#ff034987</color>
+    <color name="metro_color_yellow">#ffd48d17</color>
+    <color name="metro_color_deep_yellow">#ffca4a31</color>
+    <color name="metro_color_blue">#ff1598d0</color>
+    <color name="metro_color_green">#ff66c010</color>
+    <color name="metro_color_black">#ff7a9729</color>
+    <color name="metro_color_purple">#ff71145e</color>
+    <color name="metro_color_cyan">#ffadd26b</color>
+</resources>

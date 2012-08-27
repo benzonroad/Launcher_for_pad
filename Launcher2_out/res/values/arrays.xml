@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="extra_wallpapers" />
+    <string-array name="transition_names">
+        <item>Standard</item>
+        <item>RotateUp</item>
+        <item>RotateDown</item>
+        <item>Cubein</item>
+        <item>CubeOut</item>
+    </string-array>
+    <string-array name="week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+    <string-array name="wallpapers">
+        <item>wallpaper_architecture</item>
+        <item>wallpaper_bubblegum</item>
+        <item>wallpaper_canyon</item>
+        <item>wallpaper_chroma</item>
+        <item>wallpaper_escape</item>
+        <item>wallpaper_fidelity</item>
+        <item>wallpaper_flora</item>
+        <item>wallpaper_kepler</item>
+        <item>wallpaper_leaf</item>
+        <item>wallpaper_noir</item>
+        <item>wallpaper_outofthebox</item>
+        <item>default_wallpaper</item>
+    </string-array>
+</resources>

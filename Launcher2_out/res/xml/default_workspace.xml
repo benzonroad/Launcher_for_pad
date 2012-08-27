@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<favorites
+  xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher">
+    <appwidget launcher:className="com.android.launcher2.Win8WidgetTwo" launcher:packageName="com.android.launcher" launcher:screen="1" launcher:x="0" launcher:y="0" launcher:spanX="7" launcher:spanY="6" />
+    <appwidget launcher:className="com.android.launcher2.Win8Widget" launcher:packageName="com.android.launcher" launcher:screen="2" launcher:x="0" launcher:y="0" launcher:spanX="7" launcher:spanY="6" />
+    <appwidget launcher:className="com.android.launcher2.Win8WidgetThree" launcher:packageName="com.android.launcher" launcher:screen="3" launcher:x="0" launcher:y="0" launcher:spanX="7" launcher:spanY="6" />
+</favorites>

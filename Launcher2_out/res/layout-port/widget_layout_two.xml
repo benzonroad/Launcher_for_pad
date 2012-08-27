@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/widget_layout" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:id="@id/left_widget_layout" android:layout_width="677.0dip" android:layout_height="540.0dip">
+        <LinearLayout android:orientation="vertical" android:layout_width="266.0dip" android:layout_height="540.0dip">
+            <FrameLayout android:background="@drawable/letou_widget_wowpaper" android:layout_width="266.0dip" android:layout_height="266.0dip">
+                <ImageView android:layout_gravity="bottom|left|center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:src="@drawable/letou_gallery" />
+                <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/gallery" />
+                <include android:id="@id/view_gallery" layout="@layout/click_view" />
+            </FrameLayout>
+            <LinearLayout android:orientation="horizontal" android:layout_width="266.0dip" android:layout_height="129.0dip" android:layout_marginTop="8.0dip">
+                <FrameLayout android:background="#ffca4a31" android:layout_width="129.0dip" android:layout_height="129.0dip">
+                    <ImageView android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/letou_music" />
+                    <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/music" />
+                    <include android:id="@id/view_music" layout="@layout/click_view" />
+                </FrameLayout>
+                <FrameLayout android:background="#ff66c010" android:layout_width="129.0dip" android:layout_height="129.0dip" android:layout_marginLeft="8.0dip">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/letou_recorder" />
+                    <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/recorder" />
+                    <include android:id="@id/view_recorder" layout="@layout/click_view" />
+                </FrameLayout>
+            </LinearLayout>
+            <FrameLayout android:background="#ff034987" android:layout_width="266.0dip" android:layout_height="129.0dip" android:layout_marginTop="8.0dip">
+                <ImageView android:layout_gravity="left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/letou_calendar" />
+                <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:id="@id/date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="90.0dip" android:layout_marginTop="20.0dip" />
+                <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:id="@id/day" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="90.0dip" android:layout_marginTop="66.0dip" />
+                <include android:id="@id/view_calendar" layout="@layout/click_view" />
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="403.0dip" android:layout_height="540.0dip" android:layout_marginLeft="8.0dip">
+            <LinearLayout android:orientation="horizontal" android:layout_width="403.0dip" android:layout_height="129.0dip">
+                <FrameLayout android:background="#ff71205e" android:layout_width="403.0dip" android:layout_height="129.0dip">
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:src="@drawable/letou_rom_icon_clock" />
+                    <TextView android:textSize="35.0sp" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" />
+                    <include android:id="@id/view_clock" layout="@layout/click_view" />
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="403.0dip" android:layout_height="266.0dip" android:layout_marginTop="8.0dip">
+                <LinearLayout android:orientation="vertical" android:layout_width="129.0dip" android:layout_height="266.0dip">
+                    <FrameLayout android:background="#ffadd26b" android:layout_width="129.0dip" android:layout_height="266.0dip">
+                        <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/letou_rom_icon_filemanager" />
+                        <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/filemanager" />
+                        <include android:id="@id/view_filemanager" layout="@layout/click_view" />
+                    </FrameLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="266.0dip" android:layout_height="266.0dip" android:layout_marginLeft="8.0dip">
+                    <LinearLayout android:orientation="horizontal" android:background="#ffd48d17" android:layout_width="266.0dip" android:layout_height="129.0dip">
+                        <FrameLayout android:layout_width="66.0dip" android:layout_height="129.0dip">
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/brightness" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:src="@drawable/bright" />
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/brightness_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="85.0dip" android:src="@drawable/letou_widget_close" />
+                            <ImageView android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="129.0dip" android:src="@drawable/letou_widget_cutoff" />
+                            <include android:id="@id/view_brightness" layout="@layout/click_view" />
+                        </FrameLayout>
+                        <FrameLayout android:layout_width="66.0dip" android:layout_height="129.0dip">
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/wi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:src="@drawable/wifi" />
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/wifi_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="85.0dip" android:src="@drawable/letou_widget_close" />
+                            <ImageView android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="129.0dip" android:src="@drawable/letou_widget_cutoff" />
+                            <include android:id="@id/view_wifi" layout="@layout/click_view" />
+                        </FrameLayout>
+                        <FrameLayout android:layout_width="66.0dip" android:layout_height="129.0dip">
+                            <ImageView android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:src="@drawable/repo" />
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/sync_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="85.0dip" android:src="@drawable/letou_widget_close" />
+                            <ImageView android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="129.0dip" android:src="@drawable/letou_widget_cutoff" />
+                            <include android:id="@id/view_sync" layout="@layout/click_view" />
+                        </FrameLayout>
+                        <FrameLayout android:layout_width="66.0dip" android:layout_height="129.0dip">
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/volu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:src="@drawable/volume" />
+                            <ImageView android:layout_gravity="center_horizontal" android:id="@id/bluetooth_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="85.0dip" android:src="@drawable/letou_widget_close" />
+                            <include android:id="@id/view_bluetooth" layout="@layout/click_view" />
+                        </FrameLayout>
+                    </LinearLayout>
+                    <LinearLayout android:orientation="horizontal" android:layout_width="266.0dip" android:layout_height="129.0dip" android:layout_marginTop="8.0dip">
+                        <FrameLayout android:background="#ff7a9729" android:layout_width="266.0dip" android:layout_height="129.0dip">
+                            <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/letou_camera" />
+                            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/camera" />
+                            <include android:id="@id/view_camera" layout="@layout/click_view" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:layout_width="403.0dip" android:layout_height="129.0dip" android:layout_marginTop="8.0dip">
+                <FrameLayout android:background="#ff29a0a8" android:layout_width="266.0dip" android:layout_height="129.0dip">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/letou_browser" />
+                    <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/browser" />
+                    <include android:id="@id/view_browser" layout="@layout/click_view" />
+                </FrameLayout>
+                <FrameLayout android:background="#ff1995d3" android:layout_width="129.0dip" android:layout_height="129.0dip" android:layout_marginLeft="8.0dip">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/letou_setting" />
+                    <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/setting" />
+                    <include android:id="@id/view_setting" layout="@layout/click_view" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
