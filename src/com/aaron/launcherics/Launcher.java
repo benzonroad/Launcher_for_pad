@@ -831,7 +831,7 @@ public final class Launcher extends Activity
         dragController.setMoveTarget(mWorkspace);
         dragController.addDropTarget(mWorkspace);
         //dragController.addDropTarget(mAppsCustomizeContent);
-       // dragController.setEditDragScoller(mAppsCustomizeContent);
+       //dragController.setEditDragScoller(mAppsCustomizeContent);
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.setup(this, dragController);
         }
@@ -1679,11 +1679,11 @@ public final class Launcher extends Activity
          sFolders.put(folderInfo.id, folderInfo);
     }
     
-   /* void removeFolderInAppItem(FolderInfo folder){
-    	if(mAppsCustomizeContent != null){
+   void removeFolderInAppItem(FolderInfo folder){
+    	/*if(mAppsCustomizeContent != null){
     		mAppsCustomizeContent.getApps().remove(folder);
-    	}
-    }*/
+    	}*/
+    }
 
     private void startWallpaper() {
         showWorkspace(true);
@@ -2159,12 +2159,12 @@ public final class Launcher extends Activity
     	return null;
     }
     
-    /*ArrayList<ItemInfo> getApps(){
-    	if(mAppsCustomizeContent != null){
+    ArrayList<ItemInfo> getApps(){
+    	/*if(mAppsCustomizeContent != null){
     		return mAppsCustomizeContent.getApps();
-    	}
+    	}*/
     	return null;
-    }*/
+    }
 
     @Override
     protected Dialog onCreateDialog(int id) {

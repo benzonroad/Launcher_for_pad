@@ -87,7 +87,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 	private static final String TAG = "Launcher.Workspace";
 
 	// Y rotation to apply to the workspace screens
-	private static final float WORKSPACE_ROTATION = 12.5f;
+	private static final float WORKSPACE_ROTATION = .0f;
 	private static final float WORKSPACE_OVERSCROLL_ROTATION = 24f;
 	private static float CAMERA_DISTANCE = 6500;
 
@@ -1388,6 +1388,17 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+	
+		boolean bOverScroll = false;
+		if ((mScrollX < 0) || (mScrollX > mMaxScrollX)) {
+			bOverScroll = true;
+		}
+
+		if (mState == State.NORMAL) {
+			dispatchDraw1(canvas);
+			return;
+		}
+		
         if (mChildrenLayersEnabled) {
             getVisiblePages(mTempVisiblePagesRange);
             final int leftScreen = mTempVisiblePagesRange[0];
@@ -1695,7 +1706,14 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		changeState(state, animated, 0);
 	}
 
+	/**
+	 * 设置状态，包括桌面的各种状态
+	 * @param state
+	 * @param animated
+	 * @param delay
+	 */
 	void changeState(final State state, boolean animated, int delay) {
+		Log.d(TAG, "change state "+state.name()+" animated "+animated+" ,"+delay);
 		if (mFirstLayout) {
 			// (mFirstLayout == "first layout has not happened yet")
 			// cancel any pending shrinks that were set earlier
@@ -1718,6 +1736,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		mState = state;
 		boolean zoomIn = true;
 
+		// 设置变小的状态
 		if (state != State.NORMAL) {
 			finalScaleFactor = mSpringLoadedShrinkFactor
 					- (state == State.SMALL ? 0.1f : 0);
@@ -1737,6 +1756,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			normalState = true;
 		}
 
+		// 转动角度设置
 		float translationX = 0;
 		float translationY = 0;
 
@@ -3869,75 +3889,99 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			}
 		}
 	}
-	// effect matrix
-	IEffectMatrixBuilder mEffectBuilder = new CubeInsideEffectMatrixBuilder();
+
+	IEffectMatrixBuilder mEffectBuilder = new MoveEffectMatrixBuilder();
 
 	public void setEffectBuilder(IEffectMatrixBuilder effectBuilder) {
 		mEffectBuilder = effectBuilder;
-	}
-	
-	public IEffectMatrixBuilder getEffectMatrixBuilder(){
-		return mEffectBuilder;
 	}
 
 	PaintFlagsDrawFilter mPaintFlagsDrawFilter = new PaintFlagsDrawFilter(0,
 			Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
 
 	protected void dispatchDraw1(Canvas canvas) {
- 		int width = this.getWidth();
- 		int height = this.getHeight();
- 		boolean restore = false;
- 		int restoreCount = 0;
- 		int childCount = getChildCount();
- 		final long drawingTime = getDrawingTime();
- 		final float scrollPos = (float) mScrollX / width;
- 		//int offSetX = mScrollX % width;
- 		int offSetX = mScrollX-mCurrentPage*width;
- 		Log.d(TAG, "offSetX "+offSetX);
- 		/*int leftScreen = 0;
- 		if (mScrollX <0) {
- 			leftScreen = -1;
- 		} else {
- 			leftScreen = (int) scrollPos;
- 		}
- 		int rightScreen = leftScreen + 1;*/
- 		// Add by lizuokang 
- 		/*if (leftScreen < 0) {
-			leftScreen = getChildCount() -1;
-			int count = canvas.save();
-			canvas.translate(-width*childCount, 0);
-			drawChild(canvas, getChildAt(leftScreen), drawingTime);
-			((CellLayout) getChildAt(leftScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_LEFT, offSetX);
-			canvas.restoreToCount(count);
-		}else {
-			if (leftScreen > childCount-1) {
-				leftScreen = 0;
+		if (isScrollingIndicatorEnabled()) {
+			updateScrollingIndicator();
+		}
+		int width = this.getWidth();
+		int height = this.getHeight();
+		boolean restore = false;
+		int restoreCount = 0;
+		final long drawingTime = getDrawingTime();
+		final float scrollPos = (float) mScrollX / width;
+		int offSetX = mScrollX % width;
+		final int leftScreen = (int) scrollPos;
+		final int rightScreen = leftScreen + 1;
+		if (scrollPos != leftScreen && rightScreen < getChildCount()) {
+			restoreCount = canvas.save();
+			Matrix matrix = mEffectBuilder.createRightMatrix(rightScreen, width
+					- offSetX, width, height);
+			canvas.concat(matrix);
+			canvas.setDrawFilter(mPaintFlagsDrawFilter);
+			this.enableChildrenCache(rightScreen, rightScreen);
+			if (mEffectBuilder instanceof IAlphaBuilder) {
+				int value = ((IAlphaBuilder) mEffectBuilder).createRightAlpha(
+						rightScreen, width - offSetX, width, height);
+				canvas.saveLayerAlpha(rightScreen * width + mPaddingLeft,
+						mScrollY + mPaddingTop, rightScreen * width + width
+								- mPaddingRight, mScrollY + height
+								- mPaddingBottom, value,
+						Canvas.HAS_ALPHA_LAYER_SAVE_FLAG
+								| Canvas.CLIP_TO_LAYER_SAVE_FLAG);
+
+			}
+			drawChild(canvas, getChildAt(rightScreen), drawingTime);
+			this.clearChildrenCache();
+			canvas.setDrawFilter(null);
+			canvas.restoreToCount(restoreCount);
+		}
+		if (leftScreen >= 0) {
+			Log.e("zhengping","leftScreen=" + leftScreen);
+			restoreCount = canvas.save();
+			Matrix matrix = mEffectBuilder.createLeftMatrix(leftScreen,
+					offSetX, width, height);
+			canvas.concat(matrix);
+			canvas.setDrawFilter(mPaintFlagsDrawFilter);
+			this.enableChildrenCache(leftScreen, leftScreen);
+			if (mEffectBuilder instanceof IAlphaBuilder) {
+				int value = ((IAlphaBuilder) mEffectBuilder).createLeftAlpha(
+						leftScreen, offSetX, width, height);
+				canvas.saveLayerAlpha(leftScreen * width + mPaddingLeft,
+						mScrollY + mPaddingTop, leftScreen * width + width
+								- mPaddingRight, mScrollY + height
+								- mPaddingBottom, value,
+						Canvas.HAS_ALPHA_LAYER_SAVE_FLAG
+								| Canvas.CLIP_TO_LAYER_SAVE_FLAG);
+
 			}
 			drawChild(canvas, getChildAt(leftScreen), drawingTime);
-			((CellLayout) getChildAt(leftScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_LEFT, offSetX);
+			this.clearChildrenCache();
+			canvas.restoreToCount(restoreCount);
+
 		}
-		if (rightScreen >= getChildCount()) {
-			rightScreen = 0;
-			int count = canvas.save();
-			canvas.translate(width*getChildCount(), 0);
-			drawChild(canvas, getChildAt(rightScreen), drawingTime);
-			((CellLayout) getChildAt(rightScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_RIGHT, offSetX);
-			canvas.restoreToCount(count);
-		}else {
-			drawChild(canvas, getChildAt(rightScreen), drawingTime);
-			((CellLayout) getChildAt(rightScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_RIGHT, offSetX);
-		}*/
-		
- 		/*if (rightScreen < getChildCount()) {
- 			// scrolling to right;
- 			drawChild(canvas, getChildAt(rightScreen), drawingTime);
- 			((CellLayout) getChildAt(rightScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_RIGHT, offSetX);
- 		}
- 		if (leftScreen >= 0) {
- 			// scrolling to right;
- 			drawChild(canvas, getChildAt(leftScreen), drawingTime);
- 			((CellLayout) getChildAt(leftScreen)).setCellLayoutDelayX(CellLayout.CELL_SITE_LEFT, offSetX);
-		}*/
+
+		if (mInScrollArea && !LauncherApplication.isScreenLarge()) {
+			final int pageHeight = getChildAt(0).getHeight();
+			final int offset = (height - pageHeight - mPaddingTop - mPaddingBottom) / 2;
+			final int paddingTop = mPaddingTop + offset;
+			final int paddingBottom = mPaddingBottom + offset;
+			final CellLayout leftPage = (CellLayout) getChildAt(mCurrentPage - 1);
+			final CellLayout rightPage = (CellLayout) getChildAt(mCurrentPage + 1);
+			if (leftPage != null && leftPage.getIsDragOverlapping()) {
+				final Drawable d = getResources().getDrawable(
+						R.drawable.page_hover_left_holo);
+				d.setBounds(mScrollX, paddingTop, mScrollX
+						+ d.getIntrinsicWidth(), height - paddingBottom);
+				d.draw(canvas);
+			} else if (rightPage != null && rightPage.getIsDragOverlapping()) {
+				final Drawable d = getResources().getDrawable(
+						R.drawable.page_hover_right_holo);
+				d.setBounds(mScrollX + width - d.getIntrinsicWidth(),
+						paddingTop, mScrollX + width, height - paddingBottom);
+				d.draw(canvas);
+			}
+
+		}
 
 	}
 

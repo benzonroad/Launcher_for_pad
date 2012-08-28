@@ -481,9 +481,9 @@ public class CellLayout extends ViewGroup {
                     Rect clipRect = canvas.getClipBounds();
                     int marginX = (int) (marginFraction * (clipRect.right - clipRect.left));
                     int marginY = (int) (marginFraction * (clipRect.bottom - clipRect.top));
-                    canvas.save(Canvas.CLIP_SAVE_FLAG);
+                    /*canvas.save(Canvas.CLIP_SAVE_FLAG);
                     canvas.clipRect(-marginX, -marginY,
-                            getWidth() + marginX, getHeight() + marginY, Region.Op.REPLACE);
+                            getWidth() + marginX, getHeight() + marginY, Region.Op.REPLACE);*/
                     modifiedClipRect = true;
                 }
 
@@ -492,7 +492,7 @@ public class CellLayout extends ViewGroup {
                 mActiveGlowBackgroundMini.setBounds(mGlowBackgroundRect);
                 mActiveGlowBackgroundMini.draw(canvas);
                 if (modifiedClipRect) {
-                    canvas.restore();
+                    //canvas.restore();
                 }
             }
         }
