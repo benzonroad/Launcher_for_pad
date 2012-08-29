@@ -24,6 +24,7 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.appwidget.AppWidgetManager;
@@ -66,6 +67,7 @@ import android.widget.Toast;
 import com.aaron.launcherics.R;
 import com.aaron.launcherics.FolderIcon.FolderRingAnimator;
 import com.aaron.launcherics.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
+import com.aaron.launcherics.effection.BaseEffection;
 import com.aaron.launcherics.effection.CubeInsideEffectMatrixBuilder;
 import com.aaron.launcherics.effection.IAlphaBuilder;
 import com.aaron.launcherics.effection.IEffectMatrixBuilder;
@@ -80,6 +82,7 @@ import java.util.List;
  * Each page contains a number of icons, folders or widgets the user can
  * interact with. A workspace is meant to be used with a fixed width only.
  */
+@SuppressLint("ParserError")
 public class Workspace extends SmoothPagedView implements DropTarget,
 		DragSource, DragScroller, View.OnTouchListener,
 		DragController.DragListener {
@@ -87,7 +90,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 	private static final String TAG = "Launcher.Workspace";
 
 	// Y rotation to apply to the workspace screens
-	private static final float WORKSPACE_ROTATION = .0f;
+	private static final float WORKSPACE_ROTATION = 90.0f;
 	private static final float WORKSPACE_OVERSCROLL_ROTATION = 24f;
 	private static float CAMERA_DISTANCE = 6500;
 
@@ -1258,8 +1261,8 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 
 		return Math.min(r / threshold, 1.0f);
 	}
-
-	private void screenScrolledLargeUI(int screenCenter) {
+	
+	/*private void screenScrolledLargeUI(int screenCenter) {
 		for (int i = 0; i < getChildCount(); i++) {
 			CellLayout cl = (CellLayout) getChildAt(i);
 			if (cl != null) {
@@ -1284,6 +1287,68 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 				}
 				cl.setTranslationX(translationX);
 				cl.setRotationY(rotation);
+			}
+		}
+	}*/
+
+	/**
+	 * @param screenCenter
+	 */
+	private void screenScrolledLargeUI(int screenCenter) {
+		float rotationX = 0;
+		float rotationY = 0;
+		float rotationZ = 0;
+		float translationX = 0;
+		float translationY = 0;
+		float pivotX = 0.5f;
+		float pivotY = 0.5f;
+		for (int i = 0; i < getChildCount(); i++) {
+			CellLayout cl = (CellLayout) getChildAt(i);
+			if (cl != null) {
+				float scrollProgress = getScrollProgress(screenCenter, cl, i);
+				if (mEffectBuilder != null) {
+					rotationX = mEffectBuilder.getEffectRotationX(scrollProgress);
+					rotationY = mEffectBuilder.getEffectRotationY(scrollProgress);
+					rotationZ = mEffectBuilder.getEffectRotationZ(scrollProgress);
+					translationX = mEffectBuilder.getEffectTranslationX(scrollProgress, cl.getWidth(), cl.getHeight());
+					translationY = mEffectBuilder.getEffectTranslationY(scrollProgress, cl.getWidth(), cl.getHeight());
+					pivotX = mEffectBuilder.getEffectPivotX();
+					pivotY = mEffectBuilder.getEffectPivotY();
+				}else {
+					rotationX = 0;
+					rotationY = WORKSPACE_ROTATION * scrollProgress; 
+					rotationZ = 0;
+					translationX = getOffsetXForRotation(rotationY,
+							cl.getWidth(), cl.getHeight());
+					translationY = 0;
+					pivotX = 0.5f;
+					pivotY = 0.5f;
+				}
+
+				// If the current page (i) is being over scrolled, we use a
+				// different
+				// set of rules for setting the background alpha multiplier.
+				if (!isSmall()) {
+					if ((mScrollX < 0 && i == 0)
+							|| (mScrollX > mMaxScrollX && i == getChildCount() - 1)) {
+						cl.setBackgroundAlphaMultiplier(overScrollBackgroundAlphaInterpolator(Math
+								.abs(scrollProgress)));
+						mOverScrollPageIndex = i;
+					} else if (mOverScrollPageIndex != i) {
+						cl.setBackgroundAlphaMultiplier(backgroundAlphaInterpolator(Math
+								.abs(scrollProgress)));
+					}
+				}
+				
+				cl.setTranslationX(translationX);
+				cl.setTranslationY(translationY);
+				cl.setRotationX(rotationX);
+				cl.setRotationY(rotationY);
+				cl.setRotation(rotationZ);
+				Log.d(TAG, "celllayout size "+cl.getWidth()+" "+cl.getHeight());
+				Log.d(TAG, "pivot "+cl.getPivotX()+" "+cl.getPivotY());
+				cl.setPivotX(pivotX * cl.getWidth());
+				cl.setPivotY(pivotY * cl.getHeight());
 			}
 		}
 	}
@@ -1389,7 +1454,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
     @Override
     protected void dispatchDraw(Canvas canvas) {
 	
-		boolean bOverScroll = false;
+		/*boolean bOverScroll = false;
 		if ((mScrollX < 0) || (mScrollX > mMaxScrollX)) {
 			bOverScroll = true;
 		}
@@ -1397,7 +1462,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		if (mState == State.NORMAL) {
 			dispatchDraw1(canvas);
 			return;
-		}
+		}*/
 		
         if (mChildrenLayersEnabled) {
             getVisiblePages(mTempVisiblePagesRange);
@@ -3890,9 +3955,9 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		}
 	}
 
-	IEffectMatrixBuilder mEffectBuilder = new MoveEffectMatrixBuilder();
+	BaseEffection mEffectBuilder;
 
-	public void setEffectBuilder(IEffectMatrixBuilder effectBuilder) {
+	public void setEffectBuilder(BaseEffection effectBuilder) {
 		mEffectBuilder = effectBuilder;
 	}
 
@@ -3900,7 +3965,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
 
 	protected void dispatchDraw1(Canvas canvas) {
-		if (isScrollingIndicatorEnabled()) {
+		/*if (isScrollingIndicatorEnabled()) {
 			updateScrollingIndicator();
 		}
 		int width = this.getWidth();
@@ -3981,7 +4046,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 				d.draw(canvas);
 			}
 
-		}
+		}*/
 
 	}
 

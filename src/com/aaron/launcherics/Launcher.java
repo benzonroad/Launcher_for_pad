@@ -385,7 +385,7 @@ public final class Launcher extends Activity
     }
     
     void setEffectByIndex(int index) {
-    	if(index == INDEX_OF_MOVE_EFFECT) {
+    	/*if(index == INDEX_OF_MOVE_EFFECT) {
     		mWorkspace.setEffectBuilder(MoveEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
     	} else if(index == INDEX_OF_STREAM_EFFECT) {
     		mWorkspace.setEffectBuilder(StreamEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
@@ -399,7 +399,7 @@ public final class Launcher extends Activity
     		mWorkspace.setEffectBuilder(CubeInsideEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
     	} else if(index == INDEX_OF_MOVE_DEPTH_EFFECT) {
     		mWorkspace.setEffectBuilder(MoveDeptionEffectionBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	}
+    	}*/
     }
     
     void saveEffectToPref(int index) {
