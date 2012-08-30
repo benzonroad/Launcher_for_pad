@@ -68,10 +68,11 @@ import com.aaron.launcherics.R;
 import com.aaron.launcherics.FolderIcon.FolderRingAnimator;
 import com.aaron.launcherics.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
 import com.aaron.launcherics.effection.BaseEffection;
-import com.aaron.launcherics.effection.CubeInsideEffectMatrixBuilder;
-import com.aaron.launcherics.effection.IAlphaBuilder;
-import com.aaron.launcherics.effection.IEffectMatrixBuilder;
-import com.aaron.launcherics.effection.MoveEffectMatrixBuilder;
+import com.aaron.launcherics.effection.CubeIn;
+import com.aaron.launcherics.effection.CubeOut;
+import com.aaron.launcherics.effection.RotateDown;
+import com.aaron.launcherics.effection.RotateUp;
+import com.aaron.launcherics.effection.Standard;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -1295,6 +1296,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 	 * @param screenCenter
 	 */
 	private void screenScrolledLargeUI(int screenCenter) {
+		//Log.d(TAG, "screenCenter "+screenCenter);
 		float rotationX = 0;
 		float rotationY = 0;
 		float rotationZ = 0;
@@ -1306,14 +1308,16 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			CellLayout cl = (CellLayout) getChildAt(i);
 			if (cl != null) {
 				float scrollProgress = getScrollProgress(screenCenter, cl, i);
+				//Log.d(TAG, "scrollProgress "+i+" "+scrollProgress);
 				if (mEffectBuilder != null) {
 					rotationX = mEffectBuilder.getEffectRotationX(scrollProgress);
 					rotationY = mEffectBuilder.getEffectRotationY(scrollProgress);
 					rotationZ = mEffectBuilder.getEffectRotationZ(scrollProgress);
 					translationX = mEffectBuilder.getEffectTranslationX(scrollProgress, cl.getWidth(), cl.getHeight());
+					//translationX = mScrollX - getWidth() * mCurrentPage;
 					translationY = mEffectBuilder.getEffectTranslationY(scrollProgress, cl.getWidth(), cl.getHeight());
-					pivotX = mEffectBuilder.getEffectPivotX();
-					pivotY = mEffectBuilder.getEffectPivotY();
+					pivotX = mEffectBuilder.getEffectPivotX(scrollProgress);
+					pivotY = mEffectBuilder.getEffectPivotY(scrollProgress);
 				}else {
 					rotationX = 0;
 					rotationY = WORKSPACE_ROTATION * scrollProgress; 
@@ -1345,8 +1349,10 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 				cl.setRotationX(rotationX);
 				cl.setRotationY(rotationY);
 				cl.setRotation(rotationZ);
-				Log.d(TAG, "celllayout size "+cl.getWidth()+" "+cl.getHeight());
-				Log.d(TAG, "pivot "+cl.getPivotX()+" "+cl.getPivotY());
+				//Log.d(TAG, "celllayout size "+cl.getWidth()+" "+cl.getHeight());
+				//Log.d(TAG, "translationX "+i+" "+translationX);
+				//Log.d(TAG, "pivotX "+i+" "+pivotX);
+				//Log.d(TAG, "pivotY "+i+" "+pivotY);
 				cl.setPivotX(pivotX * cl.getWidth());
 				cl.setPivotY(pivotY * cl.getHeight());
 			}
@@ -1778,7 +1784,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 	 * @param delay
 	 */
 	void changeState(final State state, boolean animated, int delay) {
-		Log.d(TAG, "change state "+state.name()+" animated "+animated+" ,"+delay);
+		//Log.d(TAG, "change state "+state.name()+" animated "+animated+" ,"+delay);
 		if (mFirstLayout) {
 			// (mFirstLayout == "first layout has not happened yet")
 			// cancel any pending shrinks that were set earlier
@@ -3955,7 +3961,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		}
 	}
 
-	BaseEffection mEffectBuilder;
+	BaseEffection mEffectBuilder = new CubeIn();
 
 	public void setEffectBuilder(BaseEffection effectBuilder) {
 		mEffectBuilder = effectBuilder;

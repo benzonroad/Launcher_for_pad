@@ -56,7 +56,7 @@ import java.util.ArrayList;
  */
 public abstract class PagedView extends ViewGroup {
     private static final String TAG = "PagedView";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     protected static final int INVALID_PAGE = -1;
 
     // the min drag distance for a fling to register, to prevent random page shifts
@@ -721,11 +721,14 @@ public abstract class PagedView extends ViewGroup {
             canvas.save();
             canvas.clipRect(mScrollX, mScrollY, mScrollX + mRight - mLeft,
                     mScrollY + mBottom - mTop);
-
+            //Log.d(TAG, "rightScreen "+rightScreen);
+           /// Log.d(TAG, "leftScreen" +leftScreen);
             for (int i = rightScreen; i >= leftScreen; i--) {
-                drawChild(canvas, getPageAt(i), drawingTime);
+            	View child = getPageAt(i);
+                drawChild(canvas, child, drawingTime);
+                Log.d(TAG, "show rotate "+i+" "+child.getRotationY());
+                Log.d(TAG, "getPivot "+i+" "+child.getPivotX()+" "+child.getPivotY());
             }
-            
             canvas.restore();
         }
     }

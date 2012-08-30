@@ -94,13 +94,6 @@ import android.widget.Toast;
 //import com.android.common.Search;
 import com.aaron.launcherics.R;
 import com.aaron.launcherics.DropTarget.DragObject;
-import com.aaron.launcherics.effection.CubeEffectMatrixBuilder;
-import com.aaron.launcherics.effection.CubeInsideEffectMatrixBuilder;
-import com.aaron.launcherics.effection.MoveDeptionEffectionBuilder;
-import com.aaron.launcherics.effection.MoveEffectMatrixBuilder;
-import com.aaron.launcherics.effection.SqueezeEffectMatrixBuilder;
-import com.aaron.launcherics.effection.StreamEffectMatrixBuilder;
-import com.aaron.launcherics.effection.TurnEffectMatrixBuilder;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
