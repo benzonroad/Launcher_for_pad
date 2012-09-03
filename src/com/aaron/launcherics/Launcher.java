@@ -79,6 +79,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -94,13 +95,6 @@ import android.widget.Toast;
 //import com.android.common.Search;
 import com.aaron.launcherics.R;
 import com.aaron.launcherics.DropTarget.DragObject;
-import com.aaron.launcherics.effection.CubeEffectMatrixBuilder;
-import com.aaron.launcherics.effection.CubeInsideEffectMatrixBuilder;
-import com.aaron.launcherics.effection.MoveDeptionEffectionBuilder;
-import com.aaron.launcherics.effection.MoveEffectMatrixBuilder;
-import com.aaron.launcherics.effection.SqueezeEffectMatrixBuilder;
-import com.aaron.launcherics.effection.StreamEffectMatrixBuilder;
-import com.aaron.launcherics.effection.TurnEffectMatrixBuilder;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -208,6 +202,7 @@ public final class Launcher extends Activity
     private View mAllAppsButton;
 
     private SearchDropTargetBar mSearchDropTargetBar;
+    private ImageView transition;
     private AppsCustomizeTabHost mAppsCustomizeTabHost;
     private AppsCustomizePagedView mAppsCustomizeContent;
     private boolean mAutoAdvanceRunning = false;
@@ -215,6 +210,8 @@ public final class Launcher extends Activity
     private Bundle mSavedState;
 
     private SpannableStringBuilder mDefaultKeySsb = null;
+    
+    private ThemeWindow mThemeWindow;
 
     private boolean mWorkspaceLoading = true;
 
@@ -378,6 +375,7 @@ public final class Launcher extends Activity
         
         SharedPreferences preference = getSharedPreferences("com.zhengping.launcher2.prefs",Context.MODE_PRIVATE);
         mCurrentEffectIndex = preference.getInt(KEY_OF_CURRENT_EFFECT, INDEX_OF_MOVE_EFFECT);
+        
     }
     
     void loadEffectForWorkspace() {
@@ -835,6 +833,9 @@ public final class Launcher extends Activity
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.setup(this, dragController);
         }
+        transition = (ImageView) findViewById(R.id.transition);
+        transition.setOnClickListener(themesClick);
+        mThemeWindow = new ThemeWindow(mWorkspace);
     }
 
     /**
@@ -3471,6 +3472,15 @@ public final class Launcher extends Activity
             writer.println("  " + sDumpLogs.get(i));
         }
     }
+    
+	 private OnClickListener themesClick = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mThemeWindow.showThemeWindow();
+				v.setBackgroundResource(R.drawable.letou_rom_home_tab_icon_hl);
+			}
+		};
 
 }
 

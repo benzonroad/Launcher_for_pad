@@ -56,7 +56,7 @@ import java.util.ArrayList;
  */
 public abstract class PagedView extends ViewGroup {
     private static final String TAG = "PagedView";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     protected static final int INVALID_PAGE = -1;
 
     // the min drag distance for a fling to register, to prevent random page shifts
@@ -167,6 +167,7 @@ public abstract class PagedView extends ViewGroup {
 
     // Scrolling indicator
     private ValueAnimator mScrollIndicatorAnimator;
+    private View layout_indicator;
     private ImageView mScrollIndicator;
     private int mScrollIndicatorPaddingLeft;
     private int mScrollIndicatorPaddingRight;
@@ -721,11 +722,14 @@ public abstract class PagedView extends ViewGroup {
             canvas.save();
             canvas.clipRect(mScrollX, mScrollY, mScrollX + mRight - mLeft,
                     mScrollY + mBottom - mTop);
-
+            //Log.d(TAG, "rightScreen "+rightScreen);
+           /// Log.d(TAG, "leftScreen" +leftScreen);
             for (int i = rightScreen; i >= leftScreen; i--) {
-                drawChild(canvas, getPageAt(i), drawingTime);
+            	View child = getPageAt(i);
+                drawChild(canvas, child, drawingTime);
+                Log.d(TAG, "show rotate "+i+" "+child.getRotationY());
+                Log.d(TAG, "getPivot "+i+" "+child.getPivotX()+" "+child.getPivotY());
             }
-            
             canvas.restore();
         }
     }
@@ -1741,16 +1745,18 @@ public abstract class PagedView extends ViewGroup {
         if (mHasScrollIndicator && mScrollIndicator == null) {
             ViewGroup parent = (ViewGroup) getParent();
             mScrollIndicator = (ImageView) (parent.findViewById(R.id.paged_view_indicator));
+            layout_indicator = parent.findViewById(R.id.layout_indicator);
             mHasScrollIndicator = mScrollIndicator != null;
             if (mHasScrollIndicator) {
                 mScrollIndicator.setVisibility(View.VISIBLE);
+                layout_indicator.setVisibility(View.VISIBLE);
             }
         }
         return mScrollIndicator;
     }
 
     protected boolean isScrollingIndicatorEnabled() {
-        return !LauncherApplication.isScreenLarge();
+        return false;
     }
 
     Runnable hideScrollingIndicatorRunnable = new Runnable() {
@@ -1774,6 +1780,7 @@ public abstract class PagedView extends ViewGroup {
             // Fade the indicator in
             updateScrollingIndicatorPosition();
             mScrollIndicator.setVisibility(View.VISIBLE);
+            layout_indicator.setVisibility(View.VISIBLE);
             if (mScrollIndicatorAnimator != null) {
                 mScrollIndicatorAnimator.cancel();
             }
@@ -1801,6 +1808,7 @@ public abstract class PagedView extends ViewGroup {
             if (immediately) {
                 mScrollIndicator.setVisibility(View.GONE);
                 mScrollIndicator.setAlpha(0f);
+                layout_indicator.setVisibility(View.GONE);
             } else {
                 mScrollIndicatorAnimator = ObjectAnimator.ofFloat(mScrollIndicator, "alpha", 0f);
                 mScrollIndicatorAnimator.setDuration(sScrollIndicatorFadeOutDuration);
@@ -1814,6 +1822,7 @@ public abstract class PagedView extends ViewGroup {
                     public void onAnimationEnd(Animator animation) {
                         if (!cancelled) {
                             mScrollIndicator.setVisibility(View.GONE);
+                            layout_indicator.setVisibility(View.GONE);
                         }
                     }
                 });

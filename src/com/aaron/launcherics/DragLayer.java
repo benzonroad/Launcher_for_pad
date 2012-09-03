@@ -32,9 +32,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
+import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aaron.launcherics.R;
@@ -50,7 +52,6 @@ public class DragLayer extends FrameLayout {
 
     private int mXDown, mYDown;
     private Launcher mLauncher;
-
     // Variables relating to resizing widgets
     private final ArrayList<AppWidgetResizeFrame> mResizeFrames =
             new ArrayList<AppWidgetResizeFrame>();
@@ -61,7 +62,6 @@ public class DragLayer extends FrameLayout {
     private ValueAnimator mFadeOutAnim = null;
     private TimeInterpolator mCubicEaseOutInterpolator = new DecelerateInterpolator(1.5f);
     private View mDropView = null;
-
     private int[] mDropViewPos = new int[2];
     private float mDropViewScale;
     private float mDropViewAlpha;
@@ -298,8 +298,9 @@ public class DragLayer extends FrameLayout {
             }
         }
     }
+    
 
-    public void clearAllResizeFrames() {
+	public void clearAllResizeFrames() {
         if (mResizeFrames.size() > 0) {
             for (AppWidgetResizeFrame frame: mResizeFrames) {
                 removeView(frame);

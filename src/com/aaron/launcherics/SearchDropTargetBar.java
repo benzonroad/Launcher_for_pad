@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.aaron.launcherics.R;
 
@@ -49,6 +50,7 @@ public class SearchDropTargetBar extends FrameLayout implements DragController.D
     private View mDropTargetBar;
     private ButtonDropTarget mInfoDropTarget;
     private ButtonDropTarget mDeleteDropTarget;
+    
     private int mBarHeight;
     private boolean mDeferOnDragEnd = false;
 
@@ -229,4 +231,5 @@ public class SearchDropTargetBar extends FrameLayout implements DragController.D
             }
         }
     }
+    
 }

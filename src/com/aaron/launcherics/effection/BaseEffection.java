@@ -12,7 +12,7 @@ public abstract class BaseEffection {
 	
 	public abstract float getEffectTranslationY(float scrollProgress, int width, int height);
 	
-	public abstract float getEffectPivotX();
+	public abstract float getEffectPivotX(float scrollProgress);
 	
-	public abstract float getEffectPivotY();
+	public abstract float getEffectPivotY(float scrollProgress);
 }

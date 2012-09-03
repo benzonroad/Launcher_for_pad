@@ -658,9 +658,12 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     protected void snapToPage(int whichPage, int delta, int duration) {
         super.snapToPage(whichPage, delta, duration);
         updateCurrentTab(whichPage);
+        updateIndicator(whichPage);
     }
 
-    private void updateCurrentTab(int currentPage) {
+    
+
+	private void updateCurrentTab(int currentPage) {
         AppsCustomizeTabHost tabHost = getTabHost();
         String tag = tabHost.getCurrentTabTag();
         if (tag != null) {
@@ -672,6 +675,15 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                 tabHost.setCurrentTabFromContent(ContentType.Applications);
             }
         }
+    }
+	
+	private void updateIndicator(int whichPage) {
+		
+	}
+	
+	@Override
+	protected boolean isScrollingIndicatorEnabled() {
+        return true;
     }
 
     /*

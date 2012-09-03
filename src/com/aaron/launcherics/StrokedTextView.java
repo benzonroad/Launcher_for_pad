@@ -86,6 +86,7 @@ public class StrokedTextView extends TextView {
         }
     }
 
+   /* @Override
     protected void onDraw(Canvas canvas) {
         if (mCache != null) {
             if (mUpdateCachedBitmap) {
@@ -135,5 +136,5 @@ public class StrokedTextView extends TextView {
         } else {
             super.onDraw(canvas);
         }
-    }
+    }*/
 }

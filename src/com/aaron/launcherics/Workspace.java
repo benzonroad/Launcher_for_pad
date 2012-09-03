@@ -68,10 +68,11 @@ import com.aaron.launcherics.R;
 import com.aaron.launcherics.FolderIcon.FolderRingAnimator;
 import com.aaron.launcherics.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
 import com.aaron.launcherics.effection.BaseEffection;
-import com.aaron.launcherics.effection.CubeInsideEffectMatrixBuilder;
-import com.aaron.launcherics.effection.IAlphaBuilder;
-import com.aaron.launcherics.effection.IEffectMatrixBuilder;
-import com.aaron.launcherics.effection.MoveEffectMatrixBuilder;
+import com.aaron.launcherics.effection.CubeIn;
+import com.aaron.launcherics.effection.CubeOut;
+import com.aaron.launcherics.effection.RotateDown;
+import com.aaron.launcherics.effection.RotateUp;
+import com.aaron.launcherics.effection.Standard;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -1295,6 +1296,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 	 * @param screenCenter
 	 */
 	private void screenScrolledLargeUI(int screenCenter) {
+		//Log.d(TAG, "screenCenter "+screenCenter);
 		float rotationX = 0;
 		float rotationY = 0;
 		float rotationZ = 0;
@@ -1306,14 +1308,16 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			CellLayout cl = (CellLayout) getChildAt(i);
 			if (cl != null) {
 				float scrollProgress = getScrollProgress(screenCenter, cl, i);
+				//Log.d(TAG, "scrollProgress "+i+" "+scrollProgress);
 				if (mEffectBuilder != null) {
 					rotationX = mEffectBuilder.getEffectRotationX(scrollProgress);
 					rotationY = mEffectBuilder.getEffectRotationY(scrollProgress);
 					rotationZ = mEffectBuilder.getEffectRotationZ(scrollProgress);
 					translationX = mEffectBuilder.getEffectTranslationX(scrollProgress, cl.getWidth(), cl.getHeight());
+					//translationX = mScrollX - getWidth() * mCurrentPage;
 					translationY = mEffectBuilder.getEffectTranslationY(scrollProgress, cl.getWidth(), cl.getHeight());
-					pivotX = mEffectBuilder.getEffectPivotX();
-					pivotY = mEffectBuilder.getEffectPivotY();
+					pivotX = mEffectBuilder.getEffectPivotX(scrollProgress);
+					pivotY = mEffectBuilder.getEffectPivotY(scrollProgress);
 				}else {
 					rotationX = 0;
 					rotationY = WORKSPACE_ROTATION * scrollProgress; 
@@ -1345,8 +1349,10 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 				cl.setRotationX(rotationX);
 				cl.setRotationY(rotationY);
 				cl.setRotation(rotationZ);
-				Log.d(TAG, "celllayout size "+cl.getWidth()+" "+cl.getHeight());
-				Log.d(TAG, "pivot "+cl.getPivotX()+" "+cl.getPivotY());
+				//Log.d(TAG, "celllayout size "+cl.getWidth()+" "+cl.getHeight());
+				//Log.d(TAG, "translationX "+i+" "+translationX);
+				//Log.d(TAG, "pivotX "+i+" "+pivotX);
+				//Log.d(TAG, "pivotY "+i+" "+pivotY);
 				cl.setPivotX(pivotX * cl.getWidth());
 				cl.setPivotY(pivotY * cl.getHeight());
 			}
@@ -1778,7 +1784,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 	 * @param delay
 	 */
 	void changeState(final State state, boolean animated, int delay) {
-		Log.d(TAG, "change state "+state.name()+" animated "+animated+" ,"+delay);
+		//Log.d(TAG, "change state "+state.name()+" animated "+animated+" ,"+delay);
 		if (mFirstLayout) {
 			// (mFirstLayout == "first layout has not happened yet")
 			// cancel any pending shrinks that were set earlier
@@ -3955,99 +3961,10 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		}
 	}
 
-	BaseEffection mEffectBuilder;
+	BaseEffection mEffectBuilder = new CubeIn();
 
 	public void setEffectBuilder(BaseEffection effectBuilder) {
 		mEffectBuilder = effectBuilder;
-	}
-
-	PaintFlagsDrawFilter mPaintFlagsDrawFilter = new PaintFlagsDrawFilter(0,
-			Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
-
-	protected void dispatchDraw1(Canvas canvas) {
-		/*if (isScrollingIndicatorEnabled()) {
-			updateScrollingIndicator();
-		}
-		int width = this.getWidth();
-		int height = this.getHeight();
-		boolean restore = false;
-		int restoreCount = 0;
-		final long drawingTime = getDrawingTime();
-		final float scrollPos = (float) mScrollX / width;
-		int offSetX = mScrollX % width;
-		final int leftScreen = (int) scrollPos;
-		final int rightScreen = leftScreen + 1;
-		if (scrollPos != leftScreen && rightScreen < getChildCount()) {
-			restoreCount = canvas.save();
-			Matrix matrix = mEffectBuilder.createRightMatrix(rightScreen, width
-					- offSetX, width, height);
-			canvas.concat(matrix);
-			canvas.setDrawFilter(mPaintFlagsDrawFilter);
-			this.enableChildrenCache(rightScreen, rightScreen);
-			if (mEffectBuilder instanceof IAlphaBuilder) {
-				int value = ((IAlphaBuilder) mEffectBuilder).createRightAlpha(
-						rightScreen, width - offSetX, width, height);
-				canvas.saveLayerAlpha(rightScreen * width + mPaddingLeft,
-						mScrollY + mPaddingTop, rightScreen * width + width
-								- mPaddingRight, mScrollY + height
-								- mPaddingBottom, value,
-						Canvas.HAS_ALPHA_LAYER_SAVE_FLAG
-								| Canvas.CLIP_TO_LAYER_SAVE_FLAG);
-
-			}
-			drawChild(canvas, getChildAt(rightScreen), drawingTime);
-			this.clearChildrenCache();
-			canvas.setDrawFilter(null);
-			canvas.restoreToCount(restoreCount);
-		}
-		if (leftScreen >= 0) {
-			Log.e("zhengping","leftScreen=" + leftScreen);
-			restoreCount = canvas.save();
-			Matrix matrix = mEffectBuilder.createLeftMatrix(leftScreen,
-					offSetX, width, height);
-			canvas.concat(matrix);
-			canvas.setDrawFilter(mPaintFlagsDrawFilter);
-			this.enableChildrenCache(leftScreen, leftScreen);
-			if (mEffectBuilder instanceof IAlphaBuilder) {
-				int value = ((IAlphaBuilder) mEffectBuilder).createLeftAlpha(
-						leftScreen, offSetX, width, height);
-				canvas.saveLayerAlpha(leftScreen * width + mPaddingLeft,
-						mScrollY + mPaddingTop, leftScreen * width + width
-								- mPaddingRight, mScrollY + height
-								- mPaddingBottom, value,
-						Canvas.HAS_ALPHA_LAYER_SAVE_FLAG
-								| Canvas.CLIP_TO_LAYER_SAVE_FLAG);
-
-			}
-			drawChild(canvas, getChildAt(leftScreen), drawingTime);
-			this.clearChildrenCache();
-			canvas.restoreToCount(restoreCount);
-
-		}
-
-		if (mInScrollArea && !LauncherApplication.isScreenLarge()) {
-			final int pageHeight = getChildAt(0).getHeight();
-			final int offset = (height - pageHeight - mPaddingTop - mPaddingBottom) / 2;
-			final int paddingTop = mPaddingTop + offset;
-			final int paddingBottom = mPaddingBottom + offset;
-			final CellLayout leftPage = (CellLayout) getChildAt(mCurrentPage - 1);
-			final CellLayout rightPage = (CellLayout) getChildAt(mCurrentPage + 1);
-			if (leftPage != null && leftPage.getIsDragOverlapping()) {
-				final Drawable d = getResources().getDrawable(
-						R.drawable.page_hover_left_holo);
-				d.setBounds(mScrollX, paddingTop, mScrollX
-						+ d.getIntrinsicWidth(), height - paddingBottom);
-				d.draw(canvas);
-			} else if (rightPage != null && rightPage.getIsDragOverlapping()) {
-				final Drawable d = getResources().getDrawable(
-						R.drawable.page_hover_right_holo);
-				d.setBounds(mScrollX + width - d.getIntrinsicWidth(),
-						paddingTop, mScrollX + width, height - paddingBottom);
-				d.draw(canvas);
-			}
-
-		}*/
-
 	}
 
 }
