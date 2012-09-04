@@ -28,7 +28,10 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.TableMaskFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -145,19 +148,28 @@ final class Utilities {
             final int left = (textureWidth-width) / 2;
             final int top = (textureHeight-height) / 2;
 
+            
             if (false) {
-                // draw a big box for the icon for debugging
+                /* 
+                 * draw a big box for the icon for debugging
+                 * it can also be used to draw some good background for icons
+            	*/
                 canvas.drawColor(sColors[sColorIndex]);
                 if (++sColorIndex >= sColors.length) sColorIndex = 0;
                 Paint debugPaint = new Paint();
                 debugPaint.setColor(0xffcccc00);
                 canvas.drawRect(left, top, left+width, top+height, debugPaint);
             }
-
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setColor(0xff424242);
+            Rect rect = new Rect(left, top, left+width, top+height);
+            canvas.drawRoundRect(new RectF(rect), 12, 12, paint);
             sOldBounds.set(icon.getBounds());
             icon.setBounds(left, top, left+width, top+height);
             icon.draw(canvas);
             icon.setBounds(sOldBounds);
+            paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
             canvas.setBitmap(null);
 
             return bitmap;

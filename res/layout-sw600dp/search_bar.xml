@@ -62,7 +62,7 @@
     <ImageView
         android:id="@+id/transition"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@drawable/letou_rom_home_tab_icon" />
 

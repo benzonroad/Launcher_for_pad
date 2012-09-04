@@ -1,10 +1,6 @@
 package com.aaron.launcherics.effection;
 
-import android.annotation.SuppressLint;
-import android.graphics.Camera;
-import android.graphics.Matrix;
 
-@SuppressLint("ParserError")
 public class RotateUp extends BaseEffection {
 	
 	private final static float MAX_RETATE = 35.0F;
@@ -52,7 +48,6 @@ public class RotateUp extends BaseEffection {
 
 	@Override
 	public float getEffectPivotY(float scrollProgress) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

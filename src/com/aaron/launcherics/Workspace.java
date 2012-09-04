@@ -24,7 +24,6 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.appwidget.AppWidgetManager;
@@ -83,7 +82,6 @@ import java.util.List;
  * Each page contains a number of icons, folders or widgets the user can
  * interact with. A workspace is meant to be used with a fixed width only.
  */
-@SuppressLint("ParserError")
 public class Workspace extends SmoothPagedView implements DropTarget,
 		DragSource, DragScroller, View.OnTouchListener,
 		DragController.DragListener {
