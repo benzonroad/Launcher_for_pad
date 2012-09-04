@@ -112,13 +112,11 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
         tabView = (TextView) mLayoutInflater.inflate(R.layout.tab_widget_indicator, tabs, false);
         tabView.setText(label);
         tabView.setContentDescription(label);
-        //tabView.setBackgroundColor(Color.BLUE);
         addTab(newTabSpec(APPS_TAB_TAG).setIndicator(tabView).setContent(contentFactory));
         label = mContext.getString(R.string.widgets_tab_label);
         tabView = (TextView) mLayoutInflater.inflate(R.layout.tab_widget_indicator, tabs, false);
         tabView.setText(label);
         tabView.setContentDescription(label);
-        //tabView.setBackgroundColor(Color.GREEN);
         addTab(newTabSpec(WIDGETS_TAB_TAG).setIndicator(tabView).setContent(contentFactory));
         setOnTabChangedListener(this);
 

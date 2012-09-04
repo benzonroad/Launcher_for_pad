@@ -1,12 +1,22 @@
 package com.aaron.launcherics;
 
+import java.sql.Wrapper;
+
+import com.android.internal.telephony.cat.FontSize;
+
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -15,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.TabHost.TabContentFactory;
 
 public class ThemeWindow{
 	
@@ -58,8 +69,16 @@ public class ThemeWindow{
 		root = (TabHost) mLayoutInflater.inflate(  
                 R.layout.theme_root, null); 
 		findViews();
-		mPopupWindow = new PopupWindow(root, LayoutParams.WRAP_CONTENT,  
-	                LayoutParams.WRAP_CONTENT); 
+		mPopupWindow = new PopupWindow(root, LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT , true);
+		mPopupWindow.setOutsideTouchable(false);
+		mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+		mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				((Launcher)mParentView.getContext()).setStateThemePopupShowing(false);
+			}
+		});
 	}
 
 
@@ -69,7 +88,8 @@ public class ThemeWindow{
 	}
 	
 	private void findViews() {
-		tabs = (TabWidget) root.findViewById(android.R.id.tabs);
+		root.setup();
+		tabs = (TabWidget) root.getTabWidget();
 		ivw_theme_icon = (ImageView) root.findViewById(R.id.ivw_theme_icon);
 		tabcontent = (FrameLayout) root.findViewById(android.R.id.tabcontent);
 		grid_themes = (GridView) root.findViewById(R.id.grid_themes);
@@ -80,17 +100,39 @@ public class ThemeWindow{
 		
 		//grid_themes.setAdapter(themesAdapter);
 		grid_translations.setAdapter(translationsAdapter);
+		
+		 TabContentFactory contentFactory = new TabContentFactory() {
+		    public View createTabContent(String tag) {
+		        if ("Theme".equals(tag)) {
+		        	return grid_themes;
+		        } else {
+		        	return grid_translations;
+		        }
+            }
+	    };
 		TextView tab = (TextView) mLayoutInflater.inflate(R.layout.popup_themes_tab, tabs, false);
         tab.setText("Theme");
         tab.setContentDescription("Theme");
-        Log.d("aaron", "root "+root);
-        Log.d("aaron", "tab "+root.newTabSpec("Theme").setIndicator(tab).setContent(R.id.grid_themes));
-        root.addTab(root.newTabSpec("Theme").setIndicator(tab).setContent(R.id.grid_themes));
+        Log.d("aaron", "tabs "+tabs);
+        root.addTab(root.newTabSpec("Theme").setIndicator(tab).setContent(contentFactory));
+        
         tab = (TextView) mLayoutInflater.inflate(R.layout.popup_themes_tab, tabs, false);
         tab.setText("Transiton");
         tab.setContentDescription("Transiton");
-		root.addTab(root.newTabSpec("Transiton").setIndicator("Transiton").setContent(R.id.grid_translations));
+		root.addTab(root.newTabSpec("Transiton").setIndicator(tab).setContent(contentFactory));
+		
+		grid_translations.setOnItemClickListener(mThemeItemClick);
 	}
+	
+	private OnItemClickListener mThemeItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			((Launcher)mParentView.getContext()).setEffectByIndex((int) id);
+			mPopupWindow.dismiss();
+		}
+	};
 	
 	private class ThemesAdapter extends BaseAdapter {
 		
@@ -123,6 +165,9 @@ public class ThemeWindow{
 			TextView view;
 			if (convertView == null) {
 				view = new TextView(mParentView.getContext());
+				view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+				view.setGravity(Gravity.CENTER_HORIZONTAL);
+				view.setTextColor(Color.BLACK);
 			} else {
 				view = (TextView) convertView;
 			}
@@ -171,6 +216,8 @@ public class ThemeWindow{
 		
 		
 	}
+	
+	
 	
 	static enum ThemesCategory {
 		THEMES,

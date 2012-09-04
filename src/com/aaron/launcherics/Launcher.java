@@ -95,6 +95,11 @@ import android.widget.Toast;
 //import com.android.common.Search;
 import com.aaron.launcherics.R;
 import com.aaron.launcherics.DropTarget.DragObject;
+import com.aaron.launcherics.effection.CubeIn;
+import com.aaron.launcherics.effection.CubeOut;
+import com.aaron.launcherics.effection.RotateDown;
+import com.aaron.launcherics.effection.RotateUp;
+import com.aaron.launcherics.effection.Standard;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -269,16 +274,14 @@ public final class Launcher extends Activity
     private static ArrayList<PendingAddArguments> sPendingAddList
             = new ArrayList<PendingAddArguments>();
     
-    private int mCurrentEffectIndex = INDEX_OF_MOVE_EFFECT;
+    private int mCurrentEffectIndex = INDEX_OF_TRANSITION_STANDARD;
     private final static String KEY_OF_CURRENT_EFFECT = "current effect";
-    private final static int INDEX_OF_MOVE_EFFECT = 0;
-    private final static int INDEX_OF_STREAM_EFFECT = 1;
-    private final static int INDEX_OF_CUBE_EFFECT = 2;
-    private final static int INDEX_OF_TRUN_EFFECT = 3;
+    private final static int INDEX_OF_TRANSITION_STANDARD= 0;
+    private final static int INDEX_OF_TRANSITION_ROTATEUP = 1;
+    private final static int INDEX_OF_TRANSITION_ROTATEDOWN = 2;
+    private final static int INDEX_OF_TRANSITION_CUBEIN = 3;
+    private final static int INDEX_OF_TRANSITION_CUBEOUT = 4;
     private final static int DIALOG_SELECT_EFFECTIONS = 0;
-    private final static int INDEX_OF_SQUEEZE_EFFECT = 4;
-    private final static int INDEX_OF_CUBE_INSIDE_EFFECT = 5;
-    private final static int INDEX_OF_MOVE_DEPTH_EFFECT = 6;
 
 	private boolean editable = false;
     private static class PendingAddArguments {
@@ -373,8 +376,8 @@ public final class Launcher extends Activity
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         
-        SharedPreferences preference = getSharedPreferences("com.zhengping.launcher2.prefs",Context.MODE_PRIVATE);
-        mCurrentEffectIndex = preference.getInt(KEY_OF_CURRENT_EFFECT, INDEX_OF_MOVE_EFFECT);
+        SharedPreferences preference = getSharedPreferences("com.aaron.launcherics",Context.MODE_PRIVATE);
+        mCurrentEffectIndex = preference.getInt(KEY_OF_CURRENT_EFFECT, INDEX_OF_TRANSITION_STANDARD);
         
     }
     
@@ -382,22 +385,19 @@ public final class Launcher extends Activity
     	this.setEffectByIndex(mCurrentEffectIndex);
     }
     
-    void setEffectByIndex(int index) {
-    	/*if(index == INDEX_OF_MOVE_EFFECT) {
-    		mWorkspace.setEffectBuilder(MoveEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	} else if(index == INDEX_OF_STREAM_EFFECT) {
-    		mWorkspace.setEffectBuilder(StreamEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	} else if(index == INDEX_OF_CUBE_EFFECT) {
-    		mWorkspace.setEffectBuilder(CubeEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	} else if(index == INDEX_OF_TRUN_EFFECT) {
-    		mWorkspace.setEffectBuilder(TurnEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	}  else if(index == INDEX_OF_SQUEEZE_EFFECT) {
-    		mWorkspace.setEffectBuilder(SqueezeEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	} else if(index == INDEX_OF_CUBE_INSIDE_EFFECT) {
-    		mWorkspace.setEffectBuilder(CubeInsideEffectMatrixBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	} else if(index == INDEX_OF_MOVE_DEPTH_EFFECT) {
-    		mWorkspace.setEffectBuilder(MoveDeptionEffectionBuilder.getInstance(mWorkspace.getWidth(), mWorkspace.getHeight(), mWorkspace.getChildCount()));
-    	}*/
+    public void setEffectByIndex(int index) {
+    	if(index == INDEX_OF_TRANSITION_STANDARD) {
+    		mWorkspace.setEffectBuilder(new Standard());
+    	} else if(index == INDEX_OF_TRANSITION_ROTATEUP) {
+    		mWorkspace.setEffectBuilder(new RotateUp());
+    	} else if(index == INDEX_OF_TRANSITION_ROTATEDOWN) {
+    		mWorkspace.setEffectBuilder(new RotateDown());
+    	} else if(index == INDEX_OF_TRANSITION_CUBEIN) {
+    		mWorkspace.setEffectBuilder(new CubeIn());
+    	}  else if(index == INDEX_OF_TRANSITION_CUBEOUT) {
+    		mWorkspace.setEffectBuilder(new CubeOut());
+    	}
+    	saveEffectToPref(index);
     }
     
     void saveEffectToPref(int index) {
@@ -2191,8 +2191,7 @@ public final class Launcher extends Activity
 				public void onClick(DialogInterface arg0, int arg1) {
 					// TODO Auto-generated method stub
 					mCurrentEffectIndex = arg1;
-					Launcher.this.loadEffectForWorkspace();
-					Launcher.this.saveEffectToPref(arg1);
+					Launcher.this.setEffectByIndex(mCurrentEffectIndex);
 					SelectEffectsDialog.this.cleanUp();
 					
 				}
@@ -3473,14 +3472,22 @@ public final class Launcher extends Activity
         }
     }
     
-	 private OnClickListener themesClick = new OnClickListener() {
+	private OnClickListener themesClick = new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				mThemeWindow.showThemeWindow();
 				v.setBackgroundResource(R.drawable.letou_rom_home_tab_icon_hl);
 			}
-		};
+	};
+	
+	public void setStateThemePopupShowing(boolean isShowing) {
+		if (!isShowing) {
+			transition.setBackgroundResource(R.drawable.letou_rom_home_tab_icon);
+		} else {
+			transition.setBackgroundResource(R.drawable.letou_rom_home_tab_icon_hl);
+		}
+	}
 
 }
 

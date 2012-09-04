@@ -4,4 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/popupwindow_tab_selector"
-    android:textStyle="bold" />
+    android:textStyle="bold"
+    android:gravity="center"
+    android:textSize="20sp" />

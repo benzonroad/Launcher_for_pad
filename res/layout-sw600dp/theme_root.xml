@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
     <LinearLayout 
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
 	    <LinearLayout 
 	        android:orientation="horizontal"
 	        android:layout_width="fill_parent"
@@ -13,18 +14,23 @@
 	        <ImageView android:id="@+id/ivw_theme_icon"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:background="@drawable/theme_icon"/>
+	            android:layout_gravity="center_vertical"
+	            android:layout_marginLeft="10dp"
+	            android:background="@drawable/theme_icon"
+	            />
 	        <TabWidget
 	            android:id="@android:id/tabs"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="1">
-	         </TabWidget>
+	            android:layout_weight="1"/>
 	    </LinearLayout>
 	    <FrameLayout 
 	        android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="50dp"
+            android:background="#FFD3D3D4">
 		    <GridView android:id="@+id/grid_themes"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
