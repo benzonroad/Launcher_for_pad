@@ -2,6 +2,7 @@ package com.aaron.launcherics.effection;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;
+import android.util.Log;
 
 public class CubeIn extends BaseEffection {
 	
@@ -58,7 +59,8 @@ public class CubeIn extends BaseEffection {
 		mTempFloat2[1] = height;
 		mMatrix.mapPoints(mTempFloat2);
 		return (width - mTempFloat2[0]) * (scrollProgress > 0.0f ? 1.0f : -1.0f);*/
-		return MAX_DISTANCE * scrollProgress;
+		Log.d("aaron", "width "+width);
+		return width * scrollProgress /3;
 	}
 
 	@Override

@@ -366,14 +366,14 @@ public abstract class PagedView extends ViewGroup {
 
         if (x < 0) {
             super.scrollTo(0, y);
-            if (mAllowOverScroll) {
+            /*if (mAllowOverScroll) {
                 overScroll(x);
-            }
+            }*/
         } else if (x > mMaxScrollX) {
             super.scrollTo(mMaxScrollX, y);
-            if (mAllowOverScroll) {
+           /* if (mAllowOverScroll) {
                 overScroll(x - mMaxScrollX);
-            }
+            }*/
         } else {
             super.scrollTo(x, y);
         }
