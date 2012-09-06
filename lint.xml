@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="NewApi" severity="ignore" />
+    <issue id="ParserError">
+        <ignore path="src\com\aaron\launcherics\Launcher.java" />
+        <ignore path="src\com\aaron\launcherics\ThemeWindow.java" />
+        <ignore path="src\com\aaron\launcherics\Utilities.java" />
+        <ignore path="src\com\aaron\launcherics\Workspace.java" />
+    </issue>
 </lint>
