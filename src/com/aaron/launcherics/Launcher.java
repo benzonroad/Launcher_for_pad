@@ -3476,6 +3476,7 @@ public final class Launcher extends Activity
 			
 			@Override
 			public void onClick(View v) {
+				Log.d("aaron", "themesClick "+themesClick+" onclick");
 				mThemeWindow.showThemeWindow();
 				v.setBackgroundResource(R.drawable.letou_rom_home_tab_icon_hl);
 			}

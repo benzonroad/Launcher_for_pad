@@ -6,4 +6,5 @@
     android:background="@drawable/popupwindow_tab_selector"
     android:textStyle="bold"
     android:gravity="center"
-    android:textSize="20sp" />
+    android:textSize="20sp"
+    android:textColor="@color/popupwindow_tab_textcolor_selector"/>

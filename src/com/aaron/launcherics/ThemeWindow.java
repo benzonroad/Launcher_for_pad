@@ -41,11 +41,18 @@ public class ThemeWindow{
 	private GridView grid_translations;
 	
 	private String[] themesTitleArray = {
-	
+		"LightGray", "Cowboy",
+		"CryStal", "Ink",
+		"Orange", "Wood"
 	};
 	
 	private int[] themesIconIdArray = {
-			
+		R.drawable.popup_theme_lightcray,
+		R.drawable.popup_theme_cowboy,
+		R.drawable.popup_theme_crystal,
+		R.drawable.popup_theme_ink,
+		R.drawable.popup_theme_orange,
+		R.drawable.popup_theme_wood
 	};
 	
 	private String[] translationsTitleArray = {
@@ -84,7 +91,7 @@ public class ThemeWindow{
 
 	public void showThemeWindow() {
         mPopupWindow.showAtLocation(mParentView, Gravity.CENTER, 0, 0);
-        
+        root.setCurrentTab(0);
 	}
 	
 	private void findViews() {
@@ -95,11 +102,12 @@ public class ThemeWindow{
 		grid_themes = (GridView) root.findViewById(R.id.grid_themes);
 		grid_translations = (GridView) root.findViewById(R.id.grid_translations);
 		
-		//BaseAdapter themesAdapter = new ThemesAdapter(themesTitleArray , themesIconIdArray);
+		BaseAdapter themesAdapter = new ThemesAdapter(themesTitleArray , themesIconIdArray);
 		BaseAdapter translationsAdapter = new ThemesAdapter(translationsTitleArray, translationsIconIdArray);
 		
-		//grid_themes.setAdapter(themesAdapter);
+		grid_themes.setAdapter(themesAdapter);
 		grid_translations.setAdapter(translationsAdapter);
+		
 		
 		 TabContentFactory contentFactory = new TabContentFactory() {
 		    public View createTabContent(String tag) {

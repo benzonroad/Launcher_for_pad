@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
+                android:divider="@android:color/transparent"
                 android:tabStripEnabled="false" />
             <include
                 android:id="@+id/market_button"
@@ -77,7 +78,8 @@
                 layout="@layout/scroll_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="15dp" />
         </FrameLayout>
     </LinearLayout>
 

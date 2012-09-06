@@ -366,14 +366,14 @@ public abstract class PagedView extends ViewGroup {
 
         if (x < 0) {
             super.scrollTo(0, y);
-            if (mAllowOverScroll) {
+            /*if (mAllowOverScroll) {
                 overScroll(x);
-            }
+            }*/
         } else if (x > mMaxScrollX) {
             super.scrollTo(mMaxScrollX, y);
-            if (mAllowOverScroll) {
+           /* if (mAllowOverScroll) {
                 overScroll(x - mMaxScrollX);
-            }
+            }*/
         } else {
             super.scrollTo(x, y);
         }
@@ -578,7 +578,7 @@ public abstract class PagedView extends ViewGroup {
                     childTop += ((getMeasuredHeight() - verticalPadding) - childHeight) / 2;
                 }
 
-                if (DEBUG) Log.d(TAG, "\tlayout-child" + i + ": " + childLeft + ", " + childTop);
+                Log.d(TAG, "\tlayout-child" + i + ": " + childLeft + ", " + childTop);
                 child.layout(childLeft, childTop,
                         childLeft + child.getMeasuredWidth(), childTop + childHeight);
                 childLeft += childWidth + mPageSpacing;
@@ -727,8 +727,6 @@ public abstract class PagedView extends ViewGroup {
             for (int i = rightScreen; i >= leftScreen; i--) {
             	View child = getPageAt(i);
                 drawChild(canvas, child, drawingTime);
-                Log.d(TAG, "show rotate "+i+" "+child.getRotationY());
-                Log.d(TAG, "getPivot "+i+" "+child.getPivotX()+" "+child.getPivotY());
             }
             canvas.restore();
         }

@@ -2624,9 +2624,9 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 		// Because we don't have space in the Phone UI (the CellLayouts run to
 		// the edge) we
 		// don't need to show the outlines
-		if (LauncherApplication.isScreenLarge()) {
+		/*if (LauncherApplication.isScreenLarge()) {
 			showOutlines();
-		}
+		}*/
 	}
 
 	private void doDragExit(DragObject d) {
@@ -2728,7 +2728,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 
 			// Show the current page outlines to indicate that we can accept
 			// this drop
-			showOutlines();
+			//showOutlines();
 			layout.setIsDragOccuring(true);
 			layout.onDragEnter();
 			layout.visualizeDropLocation(null, mDragOutline, x, y, 1, 1, null,
