@@ -730,6 +730,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 
 		// Only show page outlines as we pan if we are on large screen
 		if (LauncherApplication.isScreenLarge()) {
+			Log.d(TAG, "onPageBeginMoving ");
 			showOutlines();
 		}
 	}
@@ -1914,6 +1915,7 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 			animWithInterpolator
 					.addUpdateListener(new LauncherAnimatorUpdateListener() {
 						public void onAnimationUpdate(float a, float b) {
+							Log.d(TAG, "onAnimationUpdate");
 							mTransitionProgress = b;
 							if (b == 0f) {
 								// an optimization, but not required
@@ -1931,9 +1933,9 @@ public class Workspace extends SmoothPagedView implements DropTarget,
 										* mNewScaleXs[i]);
 								cl.setFastScaleY(a * mOldScaleYs[i] + b
 										* mNewScaleYs[i]);
-								cl.setFastBackgroundAlpha(a
+								/*cl.setFastBackgroundAlpha(a
 										* mOldBackgroundAlphas[i] + b
-										* mNewBackgroundAlphas[i]);
+										* mNewBackgroundAlphas[i]);*/
 								cl.setBackgroundAlphaMultiplier(a
 										* mOldBackgroundAlphaMultipliers[i] + b
 										* mNewBackgroundAlphaMultipliers[i]);

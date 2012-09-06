@@ -30,6 +30,5 @@
     android:shadowDx="0.0"
     android:shadowDy="0.0"
     android:shadowRadius="2.0"
-    android:background="@drawable/tab_widget_indicator_selector"
     android:focusable="true"
     android:clickable="true" />

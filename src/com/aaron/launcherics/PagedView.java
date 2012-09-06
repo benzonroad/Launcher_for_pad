@@ -995,6 +995,7 @@ public abstract class PagedView extends ViewGroup {
                 mLastMotionXRemainder = 0;
                 mTouchX = mScrollX;
                 mSmoothingTime = System.nanoTime() / NANOTIME_DIV;
+                Log.d(TAG, "determineScrollingStart");
                 pageBeginMoving();
             }
             // Either way, cancel any pending longpress
@@ -1476,8 +1477,8 @@ public abstract class PagedView extends ViewGroup {
                 focusedChild == getPageAt(mCurrentPage)) {
             focusedChild.clearFocus();
         }
-
-        pageBeginMoving();
+        Log.d(TAG, "snapToPage");
+        //pageBeginMoving();
         awakenScrollBars(duration);
         if (duration == 0) {
             duration = Math.abs(delta);
