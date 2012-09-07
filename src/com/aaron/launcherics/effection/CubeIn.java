@@ -70,11 +70,11 @@ public class CubeIn extends BaseEffection {
 
 	@Override
 	public float getEffectPivotX(float scrollProgress) {
-		if (scrollProgress >0) {
-			return 0.7f;
+		/*if (scrollProgress >0) {
+			return 0.5f;
 		}else if (scrollProgress < 0){
-			return 0.3f;
-		}
+			return 0.5f;
+		}*/
 		return 0.5f;
 	}
 
